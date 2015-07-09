@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Research & Stuff - SaMaN]]></title>
-  <link href="http://samanl33t.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Extra | Research & Stuff - SaMaN]]></title>
+  <link href="http://samanl33t.github.io/blog/categories/extra/atom.xml" rel="self"/>
   <link href="http://samanl33t.github.io/"/>
   <updated>2015-07-09T16:10:07+05:30</updated>
   <id>http://samanl33t.github.io/</id>
