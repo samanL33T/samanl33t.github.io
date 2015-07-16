@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Iot | Research & Stuff - SaMaN]]></title>
   <link href="http://samanl33t.github.io/blog/categories/iot/atom.xml" rel="self"/>
   <link href="http://samanl33t.github.io/"/>
-  <updated>2015-07-16T23:20:45+05:30</updated>
+  <updated>2015-07-16T23:32:17+05:30</updated>
   <id>http://samanl33t.github.io/</id>
   <author>
     <name><![CDATA[Samandeep Singh]]></name>
@@ -215,7 +215,7 @@ The Circuit is pretty simple. We will be connecting GPIO Pins to the Pins on Rel
 
 <p><h2>Demo Video :</h2></p>
 
-<p><figure class='BetterTube' data-youtube-id='<a' data-player-width='560' data-player-height='315' id='<a' style='padding-bottom: 56.25%'><a class='BetterTubePlayer' href='http://www.youtube.com/watch?v=a_426RiwST8' style='background: url(http://img.youtube.com/vi/<a/hqdefault.jpg) 50% 50% no-repeat rgb(0, 0, 0);'></a><div class='BetterTube-playBtn'></div>&nbsp;</figure></p>
+<p><iframe width="760" height="370" src="https://www.youtube.com/embed/u_qutN6FaBw" frameborder="0" allowfullscreen></iframe></p>
 
 <p><font size=3> References </font>
 <font size=2>
