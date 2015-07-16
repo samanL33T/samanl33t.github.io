@@ -9,10 +9,7 @@
   <meta name="author" content="Samandeep Singh">
 
   
-  <meta name="description" content="blah blah blah $ lol123
-$ rake deploy commans
-$ lol1234325
-">
+  <meta name="description" content="Recently I was working on understanding Microcontrollers and IOT based devices for Security Research purposes. So, I thought of building a small home &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,11 +76,205 @@ $ lol1234325
   </header>
 
 
-<div class="entry-content"><p>blah blah blah</p>
+<div class="entry-content"><p>Recently I was working on understanding Microcontrollers and IOT based devices for Security Research purposes. So, I thought of building a small home automation system for practice.  I am yet to complete this, but for startup i&rsquo;ll be sharing how I used Raspberry Pi 2 and some other electrical components to control my room&rsquo;s lighting in this post. Also, I will not be talking about Initial setup for Raspberry here, you may find various tutorials for that.</p>
 
-<p>$ lol123
-$ rake deploy commans
-$ lol1234325</p>
+<p>Before we proceed further I&rsquo;d like to WARN you about the <font color="red">DANGER</font> of experimenting with the <font color =red>&ldquo;Mains Electricity&rdquo;</font>.If anything goes wrong the worst consequence may be death or atleast burning down your own house. So, please <font color="red">DO NOT ATTEMPT</font> to do anything mentioned in this article <font color="red">if you don&rsquo;t understand what you are doing</font> or better take the help of some experienced electrician.</p>
+
+<p>Lets get started.</p>
+
+<h2>Hardware Requirements:</h2>
+
+
+<ol>
+<li>Raspberry Pi 2 (Any other model with 5V power output will work aswell)</li>
+<li><a href="http://www.flipkart.com/robokits-usb-wifi-module-150-mbps-raspberry-pi-pc-other-devices/p/itme3vzuvzxtgzve?pid=ETYE3VZUUV8RTAH8">USB WiFi Dongle</a></li>
+<li><a href="http://www.ebay.in/itm/5V-10A-8-CH-Channel-OPTO-COUPLER-Relay-Board-Module-for-Arduino-Raspberry-Pi-/121679276857">8 Channel relay board</a></li>
+<li><a href="http://www.ebay.in/itm/40-PCS-FEMALE-TO-FEMALE-JUMPER-WIRES-DUPONT-LINES-20CMS-200mm-/251975375725">Some Female- Female jumper Wires</a></li>
+<li>Bulb Holder + Home Electric Wires</li>
+</ol>
+
+
+
+
+<h2>Other Requirements:</h2>
+
+
+<ol>
+<li>Basic Understanding of Python or any other language (I'll be using python)</li>
+<li>Basic Understanding of Linux systems</li>
+<li>Presence of Mind</li>
+</ol>
+
+
+<p>First, connect to the RPi using ssh and install &ldquo;apache&rdquo; &amp; &ldquo;php5&rdquo; :</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo su
+</span><span class='line'>$ apt-get install apache2 php5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You&rsquo;ll need to install python&rsquo;s GPIO library to control Raspberry&rsquo;s GPIO pins:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ pip install RPi.GPIO 
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, before moving ahead you&rsquo;ll need to understand the electrical components we will be using:</p>
+
+<p><font size=3>1. Relay:</font>
+    <p>A relay is an electrical device which is generally used to control high voltages using very low voltage as an Input. This consists of a coil wrapped around a pole and a two small metal flaps(nodes) that are used to close the circuit. One of the node is fixed and other is movable. Whenever an electricity is passed through the coil, it creates a magnetic field and attracts the moving node towards the static node and the circuit gets completed. So, just by applying small voltage to power up the coil we can actually complete the circuit for the high voltage to travel. Also, as the static node is not physically connected to the coil there is very less chance that the Microcontroller powering the coil gets damaged if something goes wrong.</p></p>
+
+<p><img src="/images/8_channel_relay.jpeg"></p>
+
+<p>For the experiment, I am using an 8-Channel relay which can control 8 devices at a time. You may choose your own relay or relay board, but please make sure you read the maximum Amps@Voltage that the relay can work with to avoid any mishaps.
+I&rsquo;ve made a small diagram to describe the Pin Layout on the Relay board. :</p>
+
+<p><font size=3>2. Jumper Wires:</font>
+    <p>Jumper wires are simple connecting wires that we will be using to connect Raspberry&rsquo;s GPIO pins to the Relay.</p></p>
+
+<p><p>
+<font size=3>3. Raspberry Pi 2:</font>
+    <p>We will be using &ldquo;Raspberry Pi 2"as a MicroController to control the relay. It has 40 GPIO(General Purpose Input Output) Pins. You can see the Layout diagram for these pins below. We&rsquo;ll be using these pins to power up the relay and control the switching. </p>
+<img src="/images/gpio_layout.jpeg"></p>
+
+<p><h2>The Circuit:</h2>
+The Circuit is pretty simple. We will be connecting GPIO Pins to the Pins on Relay board. First connect the Ground (&ldquo;GND&rdquo;) Pin on Relay board to any Ground (&ldquo;GND&rdquo;) pin on the Pi. Then Connect the Input 1 (&ldquo;IND1&rdquo;) Pin of the relay to the GPIO PIN 17, we will be using the GPIO PIN 17 as an output to control First relay on relay bord. Finally, connect the &ldquo;VCC&rdquo; pin on relay board to the &ldquo;5V&rdquo; GPIO pin on Pi. To make this simple here&rsquo;s the direct setup:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GPIO Pins    &lt;&mdash;>    Relay Pins
+</span><span class='line'>  5V      &lt;&ndash;>     VCC
+</span><span class='line'>  GND     &lt;&ndash;>     GND
+</span><span class='line'>  PIN 17  &lt;&ndash;>     IND1</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Now to the tricky part, We&rsquo;ll connect the relay to the Bulb holder powered by Main Electric supply. But, first I want to give you a brief idea about how the lights are switched ON and OFF via direct power supply.</p>
+
+<p>Now, when the light bulb is connected to the main supply, we usually do this by connecting two wires to the bulb. one of the wire is a &ldquo;Neutral&rdquo; wire and other one is the &ldquo;Negative&rdquo; wire which actually carries the current , also there is a switch added to the whole circuit to control the ON an OFF mechanism. So, when the swith is connected (Or Turned ON) the current flows through bulb and the neutral wire, completing the circuit. This turns the light bulb ON. When the switch is turned of, it breaks the circuit and the light bulb turns OFF. Here&rsquo;s a small circuit diagram to explain this:</p>
+
+<p><img src="/images/circuit.png"></p>
+
+<p>Now, for our experiment, we&rsquo;ll need to make the &ldquo;Negative Wire&rdquo; pass through our relay to break the circuit and control the power flow using relay&rsquo;s switching. So, when the relay will turn ON, it should complete the circuit and the Light bulb should turn ON and vice-versa. Refer to the below diagram for Full circuit.</p>
+
+<p><img src="/images/full_circuit.png"></p>
+
+<p><h2>Scripts for Controlling </h2></p>
+
+<p>Now, for the software part, I coded a simple python script to turn the relays ON/OFF using GPIO PIN 17 and a PHP code to run the python script usring any mobile device. You can find the codes below and on my Github (with CSS) - <a href ="https://github.com/samanL33T/RPi_LightControl_demo/"> RPi_LightControl_demo </a> aswell.</p>
+
+<p><figure class='code'><figcaption><span>Python code for Controlling light bulb using GPIO PIN 17 - lights.py </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="c">#!/usr/bin/python</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="kn">as</span> <span class="nn">GPIO</span>
+</span><span class='line'><span class="n">GPIO</span><span class="o">.</span><span class="n">setwarnings</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</span><span class='line'><span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
+</span><span class='line'><span class="n">args</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
+</span><span class='line'><span class="n">pin</span> <span class="o">=</span> <span class="mi">17</span> <span class="c"># GPIO PIN 17</span>
+</span><span class='line'><span class="n">ctl</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c">#Argument 1 for ON/OFF</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">ctl</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span><span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">ctl</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><figure class='code'><figcaption><span>PHP script for web based control - index.php </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ctl</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;ctl&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="nv">$command</span> <span class="o">=</span> <span class="s2">&quot;sudo python lights.py </span><span class="si">$ctl</span><span class="s2">&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$result</span> <span class="o">=</span> <span class="nb">shell_exec</span><span class="p">(</span><span class="nv">$command</span><span class="p">);</span>
+</span><span class='line'><span class="k">echo</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">?&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;html&gt;</span>
+</span><span class='line'><span class="x">&lt;head&gt;</span>
+</span><span class='line'><span class="x">&lt;link href=&quot;style.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;</span>
+</span><span class='line'><span class="x">&lt;/head&gt;</span>
+</span><span class='line'><span class="x">&lt;title&gt;SaMaN&#39;s Room Control System&lt;/title&gt;</span>
+</span><span class='line'><span class="x">&lt;body&gt;&lt;p class=&quot;head&quot;&gt;Welcome to SaMaN&#39;s Room Control system!&lt;/p&gt;</span>
+</span><span class='line'><span class="x">&lt;form action=&quot;&quot; method=&quot;POST&quot; name=&quot;form&quot;&gt;</span>
+</span><span class='line'><span class="x">&lt;p class=&quot;title&quot;&gt; Control the lights from here: &lt;/p&gt;</span>
+</span><span class='line'><span class="x">&lt;p class=&quot;form&quot;&gt;</span>
+</span><span class='line'><span class="x">&lt;input type=&quot;submit&quot; id=&quot;on&quot; value=&quot;ON&quot;&gt;</span>
+</span><span class='line'><span class="x">&lt;input type=&quot;hidden&quot; name=&quot;ctl&quot; value=&quot;1&quot;&gt;</span>
+</span><span class='line'><span class="x">&lt;/form&gt;&lt;/p&gt;</span>
+</span><span class='line'><span class="x">&lt;form action=&quot;&quot; method=&quot;POST&quot; name=&quot;form&quot;&gt;</span>
+</span><span class='line'><span class="x">&lt;p class=&quot;lol&quot;&gt;</span>
+</span><span class='line'><span class="x">&lt;input type=&quot;submit&quot; id=&quot;off&quot; value=&quot;OFF&quot;&gt;</span>
+</span><span class='line'><span class="x">&lt;input type=&quot;hidden&quot; name=&quot;ctl&quot; value=&quot;0&quot;&gt;</span>
+</span><span class='line'><span class="x">&lt;/form&gt;</span>
+</span><span class='line'><span class="x">&lt;/p&gt;</span>
+</span><span class='line'><span class="x">&lt;/body&gt;&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>NOTE  = You&rsquo;ll also need to add &ldquo;www-data&rdquo; user to sudoers file.</p>
+
+<p>Note += The PHP code is only for testing purposes, it is advised not to host this on any public address :)</p>
+
+<p>I&rsquo;ll be completing this setup soon and hopefully come back with a new pot on this. Till that time try this out, but with Caution.</p>
+
+<p><h2>Demo Video :</h2></p>
+
+<p><figure class='BetterTube' data-youtube-id='u_qutN6FaBw' data-player-width='560' data-player-height='315' id='u_qutN6FaBw' style='padding-bottom: 56.25%'><a class='BetterTubePlayer' href='http://www.youtube.com/watch?v=a_426RiwST8' style='background: url(http://img.youtube.com/vi/u_qutN6FaBw/hqdefault.jpg) 50% 50% no-repeat rgb(0, 0, 0);'></a><div class='BetterTube-playBtn'></div>&nbsp;</figure></p>
+
+<p><font size=3> References </font>
+<font size=2>
+<ul>
+<li>GPIO Diagram: <a href="http://data.designspark.info/uploads/images/53bc258dc6c0425cb44870b50ab30621">http://data.designspark.info/uploads/images/53bc258dc6c0425cb44870b50ab30621</a></li>
+<li><a href="https://www.youtube.com/watch?v=Z2B67hybdAA">https://www.youtube.com/watch?v=Z2B67hybdAA</a></li>
+<li><a href="https://elementztechblog.wordpress.com/2014/09/09/controlling-relay-boards-using-raspberrypi/">https://elementztechblog.wordpress.com/2014/09/09/controlling-relay-boards-using-raspberrypi/</a></li>
+<li><a href="https://www.raspberrypi.org/forums/viewtopic.php?t=36225">https://www.raspberrypi.org/forums/viewtopic.php?t=36225</a></li>
+<li><a href="https://github.com/TheGreenToaster/web-pins/">https://github.com/TheGreenToaster/web-pins/</a></li>
+</ul></p>
+
+<p></font></p>
 </div>
 
 
@@ -122,8 +313,6 @@ $ lol1234325</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/09/number-whoami/" title="Previous Post: #whoami">&laquo; #whoami</a>
-      
       
     </p>
   </footer>
@@ -139,10 +328,6 @@ $ lol1234325</p>
     
       <li class="post">
         <a href="/blog/2015/07/13/home-automation-controlling-lights-the-easy-way/">Home Automation : Controlling Lights the Easy Way</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/09/number-whoami/">#whoami</a>
       </li>
     
   </ul>
