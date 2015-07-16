@@ -4,7 +4,7 @@
   <title><![CDATA[Research & Stuff - SaMaN]]></title>
   <link href="http://samanl33t.github.io/atom.xml" rel="self"/>
   <link href="http://samanl33t.github.io/"/>
-  <updated>2015-07-16T23:44:00+05:30</updated>
+  <updated>2015-07-16T23:45:30+05:30</updated>
   <id>http://samanl33t.github.io/</id>
   <author>
     <name><![CDATA[Samandeep Singh]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Home Automation : Controlling Lights the Easy Way]]></title>
-    <link href="http://samanl33t.github.io/blog/2015/07/13/home-automation-controlling-lights-the-easy-way/"/>
-    <updated>2015-07-13T18:21:00+05:30</updated>
-    <id>http://samanl33t.github.io/blog/2015/07/13/home-automation-controlling-lights-the-easy-way</id>
+    <link href="http://samanl33t.github.io/blog/2015/07/16/home-automation-controlling-lights-the-easy-way/"/>
+    <updated>2015-07-16T00:00:00+05:30</updated>
+    <id>http://samanl33t.github.io/blog/2015/07/16/home-automation-controlling-lights-the-easy-way</id>
     <content type="html"><![CDATA[<p>Recently I was working on understanding Microcontrollers and IOT based devices for Security Research purposes. So, I thought of building a small home automation system for practice.  I am yet to complete this, but for startup i&rsquo;ll be sharing how I used Raspberry Pi 2 and some other electrical components to control my room&rsquo;s lighting in this post. Also, I will not be talking about Initial setup for Raspberry here, you may find various tutorials for that.</p>
 
 <p>Before we proceed further I&rsquo;d like to WARN you about the <font color="red">DANGER</font> of experimenting with the <font color =red>&ldquo;Mains Electricity&rdquo;</font>.If anything goes wrong the worst consequence may be death or atleast burning down your own house. So, please <font color="red">DO NOT ATTEMPT</font> to do anything mentioned in this article <font color="red">if you don&rsquo;t understand what you are doing</font> or better take the help of some experienced electrician.</p>
