@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Iot | Research & Stuff - SaMaN]]></title>
   <link href="http://samanl33t.github.io/blog/categories/iot/atom.xml" rel="self"/>
   <link href="http://samanl33t.github.io/"/>
-  <updated>2015-07-16T23:45:30+05:30</updated>
+  <updated>2015-07-17T18:04:42+05:30</updated>
   <id>http://samanl33t.github.io/</id>
   <author>
     <name><![CDATA[Samandeep Singh]]></name>
@@ -228,6 +228,15 @@ The Circuit is pretty simple. We will be connecting GPIO Pins to the Pins on Rel
 </ul></p>
 
 <p></font></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Home Automation : Controlling Lights the Easy Way]]></title>
+    <link href="http://samanl33t.github.io/blog/2015/07/13/home-automation-controlling-lights-the-easy-way.markdown/"/>
+    <updated>2015-07-13T18:21:00+05:30</updated>
+    <id>http://samanl33t.github.io/blog/2015/07/13/home-automation-controlling-lights-the-easy-way.markdown</id>
+    <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
