@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Iot | Research & Stuff - SaMaN]]></title>
   <link href="http://samanl33t.github.io/blog/categories/iot/atom.xml" rel="self"/>
   <link href="http://samanl33t.github.io/"/>
-  <updated>2015-07-18T21:41:08+05:30</updated>
+  <updated>2015-07-19T01:12:46+05:30</updated>
   <id>http://samanl33t.github.io/</id>
   <author>
     <name><![CDATA[Samandeep Singh]]></name>
@@ -70,8 +70,7 @@ $ pip install RPi.GPIO</p>
 
 <p><img src="/images/8_channel_relay.jpeg"></p>
 
-<p>For the experiment, I am using an 8-Channel relay which can control 8 devices at a time. You may choose your own relay or relay board, but please make sure you read the maximum Amps@Voltage that the relay can work with to avoid any mishaps.
-I&rsquo;ve made a small diagram to describe the Pin Layout on the Relay board. :</p>
+<p>For the experiment, I am using an 8-Channel relay which can control 8 devices at a time. You may choose your own relay or relay board, but please make sure you read the maximum Amps@Voltage that the relay can work with to avoid any mishaps.</p>
 
 <p><font size=3>2. Jumper Wires:</font>
     <p>Jumper wires are simple connecting wires that we will be using to connect Raspberry&rsquo;s GPIO pins to the Relay.</p></p>
