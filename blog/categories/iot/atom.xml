@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Iot | Research & Stuff - SaMaN]]></title>
   <link href="http://samanl33t.github.io/blog/categories/iot/atom.xml" rel="self"/>
   <link href="http://samanl33t.github.io/"/>
-  <updated>2015-07-17T18:25:50+05:30</updated>
+  <updated>2015-07-18T21:06:44+05:30</updated>
   <id>http://samanl33t.github.io/</id>
   <author>
     <name><![CDATA[Samandeep Singh]]></name>
@@ -19,6 +19,9 @@
     <updated>2015-07-16T00:00:00+05:30</updated>
     <id>http://samanl33t.github.io/blog/2015/07/16/home-automation-controlling-lights-the-easy-way</id>
     <content type="html"><![CDATA[<p>Recently I was working on understanding Microcontrollers and IOT based devices for Security Research purposes. So, I thought of building a small home automation system for practice.  I am yet to complete this, but for startup i&rsquo;ll be sharing how I used Raspberry Pi 2 and some other electrical components to control my room&rsquo;s lighting in this post. Also, I will not be talking about Initial setup for Raspberry here, you may find various tutorials for that.</p>
+
+<h2>NOTE OF CAUTION</h2>
+
 
 <p>Before we proceed further I&rsquo;d like to WARN you about the <font color="red">DANGER</font> of experimenting with the <font color =red>&ldquo;Mains Electricity&rdquo;</font>.If anything goes wrong the worst consequence may be death or atleast burning down your own house. So, please <font color="red">DO NOT ATTEMPT</font> to do anything mentioned in this article <font color="red">if you don&rsquo;t understand what you are doing</font> or better take the help of some experienced electrician.</p>
 
@@ -213,9 +216,13 @@ The Circuit is pretty simple. We will be connecting GPIO Pins to the Pins on Rel
 
 <p>I&rsquo;ll be completing this setup soon and hopefully come back with a new post on this. Till that time try this out, but with Caution.</p>
 
-<p><h2>Demo Video :</h2></p>
+<p><h2>Demo Video 1 :</h2></p>
 
 <p><iframe width="760" height="370" src="https://www.youtube.com/embed/u_qutN6FaBw" frameborder="0" allowfullscreen></iframe></p>
+
+<p><h2>Demo Video 2 :</h2></p>
+
+<p><iframe width="760" height="370" src="https://www.youtube.com/embed/0krJq57HI04" frameborder="0" allowfullscreen></iframe></p>
 
 <p><font size=3> References </font>
 <font size=2>
